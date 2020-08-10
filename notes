@@ -1,0 +1,18 @@
+message.member
+	returns GuildMember object
+message.author
+	returns User object
+message.member.guild.channels.cache
+	list of every channel by id
+message.member.guild.members.cache
+	list of every member in server
+message.member.guild.voiceStates.cache
+	list of all active sessions of users in voice chats
+message.member.voice.channel.id
+	current voice channel id
+	undefined if not in vc
+
+memberCount will be handy for randomization
+
+hear me lol id
+	586447432913518605
