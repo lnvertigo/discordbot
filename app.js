@@ -47,64 +47,19 @@ bot.on("message", message => {
 			case "telephone":							// +telephone [start/stop]
 			// TODO: "figure out storing these vars permanently. a global var with these CAN'T be best practice..."
 			// TODO: test in context of live server
-				var all_server_members = [];
-				var all_active_vc_sessions = [];
-				var user_dicts = [];
-				if (args[0] == "start") {				// +telephone start
-					try {
-						// get user's current vc
-						const target_vc_id = usr.voice.channel.id;
-						// get all users in server and all active vc states
-						server.members.cache.map(function (usr) {
-							let id = usr.id;
-							let nick = usr.nickname;
-							all_server_members.push({
-								userid: id,
-								nickname: nick
-							});
-						});
-						server.voiceStates.cache.map(function (state) {
-							let id = state.member.user.id;
-							let chan = state.channel.id;
-							all_active_vc_sessions.push({
-								userid: id,
-								voice_channel: chan
-							});
-						});
-						// filter vc states to only include those from user's current vc
-						var target_vc_sessions = all_active_vc_sessions.filter(function (obj) {return obj.voice_channel === target_vc_id;});
-						// extract list of userids from target vc states
-						var target_users = [];
-						target_vc_sessions.forEach( function(e) {
-							target_users.push(e.userid);
-						});
-						// get list of objects { userids, orig_nicknames } using target_users list of ids
-						user_dicts = all_server_members.filter(function(e) {
-							return target_users.includes(e.userid);
-						});
-						// randomize order
-						knuth_shuffle(user_dicts);
-						// create new nick strings and add to user object list
-						// and rename: https://discord.com/developers/docs/resources/user#modify-current-user
-							// NOTE: found python's enumerate equivalent in js, nice
-							// TODO: IDEA | give users choice of counter/order index wrap
-								// (1) [1] <1>
-						for (const [index, elem] of user_dicts.entries()) {
-							// user_dicts[index].newname = String("[" + (index+1) + "] " + elem.nickname);
-							user_dicts[index].newname = index_string(index, elem);
-						}
-
-						// dictionary for every user id and original nickname?
-					} catch (e) {
-						message.channel.send("error in +telephone start, yell at invert to fix it (and tell him exactly what happened)");
-						console.error(e);
-					}
-				} else if (args[0] == "stop") {			// +telephone stop
-					for (var key in vcUsers) {
-						// rename each user with nickname from dictionary
-					}
-				} else message.channel.send("Usage: while in a voice channel: +telephone [start/stop]");
-				break;
+			var all_server_members = [];
+			var all_active_vc_sessions = [];
+			var user_dicts = [];
+			if (args[0] == "start") {				// +telephone start
+				telephone_start();
+			} else if (args[0] == "stop") {			// +telephone stop
+				if (user_dicts != null) {
+					user_dicts.forEach(function(e) {
+						server.members.get(e.id).setNickname(e.nickname);
+					});
+				} else {}
+			} else message.channel.send("Usage: while in a voice channel: +telephone [start/stop]");
+			break;
 		}
 	}
 
@@ -122,15 +77,73 @@ bot.on("message", message => {
 
 bot.login(process.env.TOKEN);
 
-	// // use the 'public' directory // http://expressjs.com/en/starter/static-files.html
-// app.use(express.static("public"));
+// use the 'public' directory // http://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
 
-	// // use index.html in views // http://expressjs.com/en/starter/basic-routing.html
+// // use index.html in views // http://expressjs.com/en/starter/basic-routing.html
 // app.get("/", function (request, response) {
 // 	response.sendFile(__dirname + "/views/index.html");
 
-// store somewhere (old_nicks for now)
-// });
+function telephone_start() {
+	try {
+		// get user's current vc
+		const target_vc_id = usr.voice.channel.id;
+
+		// get all users in server and all active vc states
+		server.members.cache.map(function (usr) {
+			let id = usr.id;
+			let nick = usr.nickname;
+			all_server_members.push({
+				userid: id,
+				nickname: nick
+			});
+		});
+		server.voiceStates.cache.map(function (state) {
+			let id = state.member.user.id;
+			let chan = state.channel.id;
+			all_active_vc_sessions.push({
+				userid: id,
+				voice_channel: chan
+			});
+		});
+
+		// filter vc states to only include those from user's current vc
+		var target_vc_sessions = all_active_vc_sessions.filter(function (obj) {return obj.voice_channel === target_vc_id;});
+
+		// extract list of userids from target vc states
+		var target_users = [];
+		target_vc_sessions.forEach( function(e) {
+			target_users.push(e.userid);
+		});
+
+		// get list of objects { userids, orig_nicknames } using target_users list of ids
+		user_dicts = all_server_members.filter(function(e) {
+			return target_users.includes(e.userid);
+		});
+
+		// randomize order
+		knuth_shuffle(user_dicts);
+
+		// create new nick strings and add to user object list
+		// rename users during new nick creation
+		// NOTE: found python's enumerate equivalent in js, nice
+		// TODO: IDEA | give users choice of counter/order index wrap
+		// (1) [1] <1>
+		for (const [index, elem] of user_dicts.entries()) {
+			var tmp = index_string(index, elem);
+			user_dicts[index].newname = tmp;
+			server.members.get(user_dicts[index].id).setNickname(tmp);
+		}
+
+	} catch (e) {
+		message.channel.send("error in +telephone start, yell at invert to fix it (and tell him exactly what happened)");
+		console.error(e);
+	}
+}
+
+function art_ideas() {
+	// get the twitter bot assignment from har271 laptop repo
+}
 
 function index_string(index, elem) {
 	var str = "";
@@ -155,13 +168,4 @@ function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 		array[randomIndex] = temporaryValue;
 	}
 	return array;
-}
-
-function test() {
-	var arr = [];
-	arr["asdf"] = "1234";
-	arr["jkl"] = "6456";
-	console.log(arr);
-	arr.filter(b => arr[b] != "1234")
-	console.log(arr);
 }

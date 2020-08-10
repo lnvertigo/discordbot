@@ -1,16 +1,16 @@
 # inv-discord-bot
 discord bot for modules I get inspired to create
 
-# ideas I have in mind
-## MODERATOR TOOLS
+## ideas I have in mind
+### MODERATOR TOOLS
 - chat history exporter
 - photo downloader
 	- channel or user specific
 
-## TABLETOP GAMES
+### TABLETOP GAMES
 - dnd character generator within discord
 
-## ART SERVERS
+### ART SERVERS
 - art idea generator (for tac, really)
 - telephone game nicknamer: (randomizes order of users in vc for easier tracking of the line)
 
