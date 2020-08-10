@@ -45,10 +45,11 @@ bot.on("message", message => {
 					// loop until complete
 				break;
 			case "telephone":							// +telephone [start/stop]
-			TODO: "figure out storing these vars"
+			// TODO: "figure out storing these vars permanently. a global var with these CAN'T be best practice..."
+			// TODO: test in context of live server
 				var all_server_members = [];
 				var all_active_vc_sessions = [];
-				var old_nicks = [];
+				var user_dicts = [];
 				if (args[0] == "start") {				// +telephone start
 					try {
 						// get user's current vc
@@ -78,14 +79,20 @@ bot.on("message", message => {
 							target_users.push(e.userid);
 						});
 						// get list of objects { userids, orig_nicknames } using target_users list of ids
-						old_nicks = all_server_members.filter(function(e) {
+						user_dicts = all_server_members.filter(function(e) {
 							return target_users.includes(e.userid);
 						});
-						// randomize order and create new nick strings
-						console.log(old_nicks);
-						knuth_shuffle(old_nicks);
-						console.log(old_nicks);
-						// rename: https://discord.com/developers/docs/resources/user#modify-current-user
+						// randomize order
+						knuth_shuffle(user_dicts);
+						// create new nick strings and add to user object list
+						// and rename: https://discord.com/developers/docs/resources/user#modify-current-user
+							// NOTE: found python's enumerate equivalent in js, nice
+							// TODO: IDEA | give users choice of counter/order index wrap
+								// (1) [1] <1>
+						for (const [index, elem] of user_dicts.entries()) {
+							user_dicts[index].newname = String("[" + (index+1) + "] " + elem.nickname);
+						}
+
 						// dictionary for every user id and original nickname?
 					} catch (e) {
 						message.channel.send("error in +telephone start, yell at invert to fix it (and tell him exactly what happened)");
@@ -120,11 +127,16 @@ bot.login(process.env.TOKEN);
 	// // use index.html in views // http://expressjs.com/en/starter/basic-routing.html
 // app.get("/", function (request, response) {
 // 	response.sendFile(__dirname + "/views/index.html");
-// });
 
+// store somewhere (old_nicks for now)
+// });
+	var new_nicks = [];
+	old_nicks.forEach({
+
+	});
 function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 	var currentIndex = array.length, temporaryValue, randomIndex;
-	// While there remain elements to shuffle...
+	// While there rem	ain elements to shuffle...
 	while (0 !== currentIndex) {
 		// Pick a remaining element...
 		randomIndex = Math.floor(Math.random() * currentIndex);

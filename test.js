@@ -33,7 +33,7 @@ function run() {
 		{	userid: "7",
 			voice_channel: "vc_A"	},
 	];
-	var old_nicks = [];
+	var user_dicts = [];
 	// get user's current vc
 	const target_vc_id = "vc_A";
 	// get all active vc sessions
@@ -46,14 +46,25 @@ function run() {
 	target_vc_sessions.forEach(function(e) {
 		target_users.push(e.userid);
 	});
-	console.log(target_users)
+console.group("Target User IDs");
+console.log(target_users)
+console.groupEnd();
 	// get list of objects { userids, orig_nicknames } using target_users list of ids
-	old_nicks = all_server_members.filter(function(e) {
+	user_dicts = all_server_members.filter(function(e) {
 		return target_users.includes(e.userid);
 	});
-	console.log(old_nicks);
-	knuth_shuffle(old_nicks);
-	console.log(old_nicks);
+console.group("User Order Shuffle");
+console.dir(user_dicts);
+	knuth_shuffle(user_dicts);
+console.groupEnd();
+
+console.group("Python enumerate Test")
+	// TODO: IDEA | give users option of how to wrap counter/order index
+	for (const [index, elem] of user_dicts.entries()) {
+		user_dicts[index].newname = String("[" + (index+1) + "] " + elem.nickname);
+	}
+console.dir(user_dicts);
+console.groupEnd();
 }
 
 function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
