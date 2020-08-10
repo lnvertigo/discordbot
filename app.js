@@ -90,7 +90,8 @@ bot.on("message", message => {
 							// TODO: IDEA | give users choice of counter/order index wrap
 								// (1) [1] <1>
 						for (const [index, elem] of user_dicts.entries()) {
-							user_dicts[index].newname = String("[" + (index+1) + "] " + elem.nickname);
+							// user_dicts[index].newname = String("[" + (index+1) + "] " + elem.nickname);
+							user_dicts[index].newname = index_string(index, elem);
 						}
 
 						// dictionary for every user id and original nickname?
@@ -130,10 +131,17 @@ bot.login(process.env.TOKEN);
 
 // store somewhere (old_nicks for now)
 // });
-	var new_nicks = [];
-	old_nicks.forEach({
 
-	});
+function index_string(index, elem) {
+	var str = "";
+	if (index < 9) {
+		str = '[0' + (index+1) + ']' + elem.nickname;
+	} else {
+		str = '[' + (index+1) + ']' + elem.nickname;
+	}
+	return str;
+}
+
 function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	// While there rem	ain elements to shuffle...
