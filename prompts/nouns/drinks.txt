@@ -1,0 +1,8 @@
+water
+milk
+wine
+mead
+beer
+coffee
+tea
+juice

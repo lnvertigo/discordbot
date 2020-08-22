@@ -1,8 +1,10 @@
 // init
 require('dotenv').config();								// reads vars from .env and makes them usable in process.env
+
 var express = require("express");						// express, runs practically everything here
 var bodyParser = require("body-parser");
 var app = express();
+var fs = require('fs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // discord
@@ -48,13 +50,16 @@ bot.on("message", function(message) {
 					// loop until complete
 				break;
 			case "telephone":	// +telephone [start/stop]
-			// TODO: "figure out storing these vars permanently. a global var with these CAN'T be best practice..."
-			// TODO: test in context of live server
-			if (args[0] == "start") {	// +telephone start
-				telephone_start(message);
-			} else if (args[0] == "stop") {	// +telephone stop
-				telephone_stop(message);
-			}
+				// TODO: test in context of live server
+				if (args[0] == "start") {	// +telephone start
+					telephone_start(message);
+				} else if (args[0] == "stop") {	// +telephone stop
+					telephone_stop(message);
+				}
+				break;
+			case "artprompt":
+				art_prompt();
+				break;
 		}
 	}
 	// // reply to ANY MESSAGE from EVERY USER
@@ -72,7 +77,7 @@ bot.on("message", function(message) {
 bot.login(process.env.TOKEN);
 
 // use the 'public' directory // http://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 // // use index.html in views // http://expressjs.com/en/starter/basic-routing.html
 // app.get("/", function (request, response) {
@@ -150,10 +155,8 @@ function telephone_stop(message) {
 	break;
 }
 
-function art_ideas() {
-	// get the twitter bot assignment from har271 laptop repo
-}
-
+// this is to format the numbers to maintain the digit count for each entry for telephone
+// ONLY WORKS WITH 2 DIGITS
 function index_string(index, elem) {
 	var str = "";
 	if (index < 9) {
@@ -164,6 +167,7 @@ function index_string(index, elem) {
 	return str;
 }
 
+// shuffles an array, used to randomize user order for telephone
 function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	// While there rem	ain elements to shuffle...
@@ -177,4 +181,23 @@ function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 		array[randomIndex] = temporaryValue;
 	}
 	return array;
+}
+
+function art_prompt_gen() {
+	// KISS: character names and simple verbs
+	var dict = JSON.parse(readFile('_myfile.json'));
+	var nextdict = {};
+
+	for (var key in dict) {
+		randomIndex = Math.floor(Math.random() * dict[key].length);
+		nextdict[key] = dict[key][randomIndex]
+	}
+}
+
+function readFile(filename) {
+	return fs.readFileSync(filename).toString();
+}
+
+function art_prompt_print() {
+
 }

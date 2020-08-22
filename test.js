@@ -1,66 +1,68 @@
-function run() {
-	var all_server_members = [
-		{	userid: "1",
-			nickname: "inv"		},
-		{	userid: "2",
-			nickname: "bot"		},
-		{	userid: "3",
-			nickname: "mike"	},
-		{	userid: "4",
-			nickname: "johntrueman"	},
-		{	userid: "5",
-			nickname: "justin"	},
-		{	userid: "6",
-			nickname: "comm"	},
-		{	userid: "7",
-			nickname: "tac"	},
-		{	userid: "8",
-			nickname: "hunson"	},
-		{	userid: "9",
-			nickname: "rocket"	},
-		{	userid: "10",
-			nickname: "bear"	},
-		{	userid: "11",
-			nickname: "nate"	},
-		{	userid: "12",
-			nickname: "apollo"	},
-		{	userid: "13",
-			nickname: "mantis"	},
-		{	userid: "14",
-			nickname: "weeb"	},
-		{	userid: "15",
-			nickname: "furry"	},
-		{	userid: "1029",
-			nickname: "yoako"	}];
-	var all_active_vc_sessions = [
-		{	userid: "1",
-			voice_channel: "vc_A"	},
-		{	userid: "2",
-			voice_channel: "vc_B"	},
-		{	userid: "3",
-			voice_channel: "vc_A"	},
-		{	userid: "4",
-			voice_channel: "vc_A"	},
-		{	userid: "5",
-			voice_channel: "vc_B"	},
-		{	userid: "6",
-			voice_channel: "vc_A"	},
-		{	userid: "7",
-			voice_channel: "vc_A"	},
-		{	userid: "8",
-			voice_channel: "vc_A"	},
-		{	userid: "9",
-			voice_channel: "vc_A"	},
-		{	userid: "10",
-			voice_channel: "vc_A"	},
-		{	userid: "11",
-			voice_channel: "vc_A"	},
-		{	userid: "12",
-			voice_channel: "vc_A"	},
-		{	userid: "13",
-			voice_channel: "vc_A"	},
-		{	userid: "14",
-			voice_channel: "vc_A"	}];
+var all_server_members = [
+	{	userid: "1",
+		nickname: "inv"		},
+	{	userid: "2",
+		nickname: "bot"		},
+	{	userid: "3",
+		nickname: "mike"	},
+	{	userid: "4",
+		nickname: "johntrueman"	},
+	{	userid: "5",
+		nickname: "justin"	},
+	{	userid: "6",
+		nickname: "comm"	},
+	{	userid: "7",
+		nickname: "tac"	},
+	{	userid: "8",
+		nickname: "hunson"	},
+	{	userid: "9",
+		nickname: "rocket"	},
+	{	userid: "10",
+		nickname: "bear"	},
+	{	userid: "11",
+		nickname: "nate"	},
+	{	userid: "12",
+		nickname: "apollo"	},
+	{	userid: "13",
+		nickname: "mantis"	},
+	{	userid: "14",
+		nickname: "weeb"	},
+	{	userid: "15",
+		nickname: "furry"	},
+	{	userid: "1029",
+		nickname: "yoako"	}];
+var all_active_vc_sessions = [
+	{	userid: "1",
+		voice_channel: "vc_A"	},
+	{	userid: "2",
+		voice_channel: "vc_B"	},
+	{	userid: "3",
+		voice_channel: "vc_A"	},
+	{	userid: "4",
+		voice_channel: "vc_A"	},
+	{	userid: "5",
+		voice_channel: "vc_B"	},
+	{	userid: "6",
+		voice_channel: "vc_A"	},
+	{	userid: "7",
+		voice_channel: "vc_A"	},
+	{	userid: "8",
+		voice_channel: "vc_A"	},
+	{	userid: "9",
+		voice_channel: "vc_A"	},
+	{	userid: "10",
+		voice_channel: "vc_A"	},
+	{	userid: "11",
+		voice_channel: "vc_A"	},
+	{	userid: "12",
+		voice_channel: "vc_A"	},
+	{	userid: "13",
+		voice_channel: "vc_A"	},
+	{	userid: "14",
+		voice_channel: "vc_A"	}];
+
+var fs = require('fs');
+function telephone_tests() {
 	var user_dicts = [];
 	// get user's current vc
 	const target_vc_id = "vc_A";
@@ -124,4 +126,22 @@ function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 	return array;
 }
 
-run();
+function art_prompt_gen() {
+	// KISS: character names and simple verbs
+	var dict = JSON.parse(readFile('_myfile.json'));
+	var nextdict = {};
+
+	for (var key in dict) {
+		randomIndex = Math.floor(Math.random() * dict[key].length);
+		nextdict[key] = dict[key][randomIndex]
+	}
+
+
+}
+
+function readFile(filename) {
+	return fs.readFileSync(filename).toString();
+}
+
+art_prompt_gen();
+// telephone_tests();

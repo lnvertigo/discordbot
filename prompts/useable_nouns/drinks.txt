@@ -1,0 +1,16 @@
+a health potion
+a mana potion
+a stamina potion
+a poison
+an antidote
+a potion of stealth
+a potion of strength
+a potion of dexterity
+water
+milk
+wine
+mead
+beer
+coffee
+tea
+juice

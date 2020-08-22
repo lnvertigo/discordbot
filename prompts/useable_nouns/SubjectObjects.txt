@@ -1,0 +1,138 @@
+a horse
+a camel
+an elephant
+a spider
+a bear
+an owlbear
+a zebra
+a lizard
+a lion
+a tiger
+an infernal steed
+a skeleton
+a soldier
+a cavalry
+a necromancer
+a vampire
+a werewolf
+a wizard
+a fighter
+a monk
+a cleric
+a druid
+a rogue
+a ranger
+a sorcerer
+a wizard
+a warlock
+a barbarian
+a paladin
+a bard
+a dragonborn
+a dwarf
+a dark elf
+a high elf
+a gnome
+a half-elf
+a half-orc
+a halfling
+a human
+a tiefling
+an orc
+a gnoll
+a tinkerer
+an owlbear breeder
+a shaman
+a bottle maker
+a stablehand
+an innkeeper
+a blacksmith
+a washerwoman
+a town cryer
+a tailor
+a portrait painter
+a cobbler
+a lamplighter
+a trapper
+a fletcher
+a tanner
+a herbalist
+a farmer
+a carpenter
+a stonemason
+a miner
+a fortune teller
+a baker
+a town guard
+a rat catcher
+a doctor
+a messenger
+a lawyer
+a banker
+an animal tamer
+a guide
+a cartographer
+a sheriff
+a dairy maid
+a bookkeeper
+an academic
+an accountant
+an actor
+an apprentice
+an artisan
+an assassin
+a bandit
+a beggar
+a bounty hunter
+a brewer
+a con artist
+a cook
+a fisher
+a gambler
+a gravedigger
+a hunter
+a jester
+a knight
+a laborer
+a lawman
+a lumberjack
+a mercenary
+a noble
+a priest
+a sailor
+a scribe
+a servant
+a shepherd
+a slave
+a soldier
+a thief
+a thug
+a trader
+a treasure hunter
+a wanderer
+a wrestler
+a lighthouse keeper
+a landlord
+an author
+a lookout
+a clocksmith
+an exorcist
+a soapmaker
+a beekeeper
+a botanist
+an alchemist
+a potioneer
+a librarian
+a bartender
+a toymaker
+a woodcarver
+a squire
+a roofer
+a sculptor
+a scholar
+a nurse
+a nun
+a mortician
+a historian
+a gladiator
+a barber

@@ -1,0 +1,6 @@
+caves
+dungeons
+ruins
+caverns
+ghost towns
+towns

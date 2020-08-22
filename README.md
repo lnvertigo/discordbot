@@ -12,6 +12,7 @@ discord bot for modules I get inspired to create
 
 ### ART SERVERS
 - art idea generator (for tac, really)
+	- a timer attached to this function would be handy
 - telephone game nicknamer: (randomizes order of users in vc for easier tracking of the line)
 
 > EXAMPLE

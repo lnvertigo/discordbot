@@ -1,0 +1,11 @@
+horse
+camel
+elephant
+spider
+bear
+owlbear
+zebra
+lizard
+lion
+tiger
+infernal steed

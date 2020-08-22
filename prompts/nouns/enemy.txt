@@ -1,0 +1,7 @@
+skeleton
+soldier
+cavalry
+necromancer
+vampire
+werewolf
+wizard

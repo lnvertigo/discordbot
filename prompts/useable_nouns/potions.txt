@@ -1,0 +1,8 @@
+health potion
+mana potion
+stamina potion
+poison
+antidote
+potion of stealth
+potion of strength
+potion of dexterity
