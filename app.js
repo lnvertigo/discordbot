@@ -9,29 +9,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 
+// telephone globals
+var all_server_members = [];
+var all_active_vc_sessions = [];
+var user_dicts = [];
+
 // bot behavior
 bot.on("ready", () => {
 	console.log(`logged in as ${bot.user.tag}`);
 });
 
-bot.on("message", message => {
+bot.on("message", function(message) {
 	let msg = message.content;
-	let usr = message.member;
-	let server = usr.guild;
 
 	// commands
-	if (msg.substring(0,1) == "+") {					// cmd prefix | ex: !brushie
+	if (msg.substring(0,1) == "+") {	// cmd prefix | ex: !brushie
 		// arguments
-		let str = msg.substring(1,msg.length);			// rest of command
-		let args = str.split(" ");						// split into words
-		let cmd = args[0];								// main command = first word
-		args.splice(0,1);								// removes the command from args array to free args[0]
+		let str = msg.substring(1,msg.length);	// rest of command
+		let args = str.split(" ");				// split into words
+		let cmd = args[0];	// main command = first word
+		args.splice(0,1);	// removes the command from args array to free args[0]
 
 		switch (cmd) {
-			case "brushie":								// +brushie
+			case "brushie":		// +brushie
 				message.channel.send("*scrunch*");
 				break;
-			case "recordChat":							// +recordChat [filename arg]
+			case "recordChat":	// +recordChat [filename arg]
 				// file management (file-system module?)
 					// if file exists: warn and abort
 					// else create filename.txt
@@ -44,25 +47,16 @@ bot.on("message", message => {
 					// write into filename.txt
 					// loop until complete
 				break;
-			case "telephone":							// +telephone [start/stop]
+			case "telephone":	// +telephone [start/stop]
 			// TODO: "figure out storing these vars permanently. a global var with these CAN'T be best practice..."
 			// TODO: test in context of live server
-			var all_server_members = [];
-			var all_active_vc_sessions = [];
-			var user_dicts = [];
-			if (args[0] == "start") {				// +telephone start
-				telephone_start();
-			} else if (args[0] == "stop") {			// +telephone stop
-				if (user_dicts != null) {
-					user_dicts.forEach(function(e) {
-						server.members.get(e.id).setNickname(e.nickname);
-					});
-				} else {}
-			} else message.channel.send("Usage: while in a voice channel: +telephone [start/stop]");
-			break;
+			if (args[0] == "start") {	// +telephone start
+				telephone_start(message);
+			} else if (args[0] == "stop") {	// +telephone stop
+				telephone_stop(message);
+			}
 		}
 	}
-
 	// // reply to ANY MESSAGE from EVERY USER
 	// else if (message.author.id != "739970709857763441") {
 	// 	//Replace this number with your bot's user ID
@@ -84,7 +78,10 @@ app.use(express.static("public"));
 // app.get("/", function (request, response) {
 // 	response.sendFile(__dirname + "/views/index.html");
 
-function telephone_start() {
+function telephone_start(message) {
+	let usr = message.member;
+	let server = usr.guild;
+
 	try {
 		// get user's current vc
 		const target_vc_id = usr.voice.channel.id;
@@ -132,6 +129,7 @@ function telephone_start() {
 		for (const [index, elem] of user_dicts.entries()) {
 			var tmp = index_string(index, elem);
 			user_dicts[index].newname = tmp;
+			// message.guild.members.get(user_dicts[index].id).setNickname(tmp);
 			server.members.get(user_dicts[index].id).setNickname(tmp);
 		}
 
@@ -139,6 +137,17 @@ function telephone_start() {
 		message.channel.send("error in +telephone start, yell at invert to fix it (and tell him exactly what happened)");
 		console.error(e);
 	}
+}
+
+function telephone_stop(message) {
+	let server = message.member.guild;
+
+	if (user_dicts != null) {
+		user_dicts.forEach(function(e) {
+			server.members.get(e.id).setNickname(e.nickname);
+		});
+	} else message.channel.send("Usage: while in a voice channel: +telephone [start/stop]");
+	break;
 }
 
 function art_ideas() {
