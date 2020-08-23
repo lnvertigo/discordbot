@@ -1,17 +1,17 @@
-// init
-require('dotenv').config();								// reads vars from .env and makes them usable in process.env
+// INIT
+require('dotenv').config();				// reads vars from .env and makes them usable in process.env
 
-var express = require("express");						// express, runs practically everything here
+var express = require("express");		// express, runs practically everything here
 var bodyParser = require("body-parser");
 var app = express();
 var fs = require('fs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// discord
+// DISCORD
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 
-// telephone globals
+// telephone function global vars
 var all_server_members = [];
 var all_active_vc_sessions = [];
 var user_dicts = [];
@@ -57,8 +57,8 @@ bot.on("message", function(message) {
 					telephone_stop(message);
 				}
 				break;
-			case "artprompt":
-				art_prompt();
+			case "artprompt":	// +artprompt
+				art_prompt_gen(message);
 				break;
 		}
 	}
@@ -183,7 +183,7 @@ function knuth_shuffle(array) {	// https://github.com/coolaj86/knuth-shuffle
 	return array;
 }
 
-function art_prompt_gen() {
+function art_prompt_gen(message) {
 	// KISS: character names and simple verbs
 	var dict = JSON.parse(readFile('_myfile.json'));
 	var nextdict = {};
@@ -192,12 +192,18 @@ function art_prompt_gen() {
 		randomIndex = Math.floor(Math.random() * dict[key].length);
 		nextdict[key] = dict[key][randomIndex]
 	}
+	art_prompt_print(message, nextdict)
 }
 
 function readFile(filename) {
 	return fs.readFileSync(filename).toString();
 }
 
-function art_prompt_print() {
-
+function art_prompt_print(message, prompt_dictionary) {
+	var str = "Art Prompt: ";
+	for (var prompt in prompt_dictionary) {
+		str += prompt_dictionary[prompt] + " ";
+	}
+	// message.channel.send(str);
+	console.log(str);
 }
